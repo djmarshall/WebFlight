@@ -12,17 +12,30 @@
     <title>Search for Flights</title>
 </head>
 <body>
-<h2>Flight Search</h2>
-<form:form method="post" action="display.htm">
- 
-    <table>
+    
+    <table align="center">
+    <tr><td>
+        <h2>Flight Search</h2>
+    </td></tr>
     <tr>
-        <td><form:label path="fromDest">From</form:label></td>
-        <td><form:input path="fromDest" /></td> 
-    </tr>
+        
+        <form:form method="post" action="display.htm">
     <tr>
-        <td><form:label path="toDest">To</form:label></td>
-        <td><form:input path="toDest" /></td>
+        <td>
+            Origin: <form:select path="fromDest" items="${fromList}" />
+            
+        </td>
+        <td>
+            Destination: <form:select path="toDest" items="${toList}" />
+        </td>
+    </tr><tr>
+        <td>
+            Departure Date: <form:select path="fromDay" items="${dayList}" />
+            <select> 
+                <option value="Aug" >Aug </option>
+            </select>
+        </td>
+        
     </tr>
     <tr>
         <td colspan="2">

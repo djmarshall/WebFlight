@@ -1,17 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package webflight.web;
 
 /**
  *
  * @author Daniel Marshall
  */
+
 public class FlightSearch {
     
     private String fromDest;
     private String toDest;
+    private String fromDay;
 
     /**
      * @return the fromDest
@@ -39,6 +38,20 @@ public class FlightSearch {
      */
     public void setToDest(String toDest) {
         this.toDest = toDest;
+    }
+
+    /**
+     * @return the fromDay
+     */
+    public String getFromDay() {
+        return fromDay;
+    }
+
+    /**
+     * @param fromDay the fromDay to set
+     */
+    public void setFromDay(String fromDay) {
+        this.fromDay = fromDay;
     }
     
      

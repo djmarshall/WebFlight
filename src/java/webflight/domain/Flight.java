@@ -4,6 +4,9 @@
  */
 package webflight.domain;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 /**
  *
  * @author Daniel Marshall
@@ -13,6 +16,19 @@ public class Flight {
     private String fromDest;
     private String toDest;
     private double price;
+    private Date fromDate;
+    
+    public Flight() {
+        
+    }
+    
+    public Flight(String fromDest, String toDest, double price, Date fromDate) {
+        
+        this.fromDest = fromDest;
+        this.toDest = toDest;
+        this.price = price;
+        this.fromDate = fromDate;
+    }
     
     public String getFromDest() {
         return fromDest;
@@ -36,6 +52,14 @@ public class Flight {
     
     public void setPrice(double price) {
             this.price = price;
+    }
+    
+    public Date getFromDate() {
+        return fromDate;
+    }
+    
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
     }
     
 }

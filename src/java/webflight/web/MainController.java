@@ -18,8 +18,7 @@ public class MainController {
  
     @RequestMapping("/index")
     public ModelAndView helloWorld() {
- 
-        String message = "Hello World, Spring 3.0!";
+        
         return new ModelAndView("index");
     }
     

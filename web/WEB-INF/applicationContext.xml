@@ -12,17 +12,27 @@
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
           p:location="/WEB-INF/jdbc.properties" />
 
-<bean id="dataSource"
+<!-- JDBC DRIVER CONNECTION FOR LOCAL DERBY DB 
+    
+    <bean id="dataSource"
     class="org.springframework.jdbc.datasource.DriverManagerDataSource"
     p:driverClassName="${jdbc.driverClassName}"
     p:url="${jdbc.url}"
     p:username="${jdbc.username}"
     p:password="${jdbc.password}" />
 
-<bean id="flightDao" class="webflight.db.FlightDao">
-    <property name="dataSource" ref="dataSource"></property>
-</bean>
+    <bean id="flightDao" class="webflight.db.JdbcFlightDao">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean> -->
 
-    <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
+<!-- MONGODB CONNECTION
+
+    <bean id="flightDao" class="webflight.db.MemoryFlightDao">
+    </bean> -->
+
+<!-- IN MEMORY CONNECTION -->
+    
+    <bean id="flightDao" class="webflight.db.MemoryFlightDao">
+    </bean> 
 
 </beans>

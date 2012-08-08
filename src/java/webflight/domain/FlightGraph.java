@@ -1,10 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package webflight.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import webflight.db.FlightDao;
 
 /**
@@ -15,40 +13,122 @@ import webflight.db.FlightDao;
 public class FlightGraph {
     
     private FlightDao flightDao;
+    private ArrayList<FlightPath> flightPaths;
+    ArrayList<Flight> allFlights;
     
-    public ArrayList<FlightPath> getFlightPaths(String fromDest, String toDest) {
+    public FlightGraph(FlightDao flightDao) {
+        // store all valid paths
+        flightPaths = new ArrayList<FlightPath>();
         
-        // Get flights from database
-        ArrayList<Flight> allFlights = (ArrayList<Flight>) flightDao.getAllFlights();
+        // get flights from the database
+        allFlights = (ArrayList<Flight>) flightDao.getAllFlights();
         
-        // valid flight paths stored here
-        ArrayList<FlightPath> flightPaths = new ArrayList<FlightPath>();
+    }
+    
+    public void nextFlight(ArrayList<Flight> currentPath, ArrayList<String> visited, String fromDest, String toDest) {
         
-        for(Flight flighta : allFlights) {
+        System.out.println("nextflight! " + visited.toString());
+        
+        Flight recentFlight = currentPath.get(currentPath.size() - 1);
+        
+        // Are we at our destination?
+        
+        if (recentFlight.getToDest().equals(toDest)) {
             
-            // TODO: For each flight, try and build the longest chain...
+            System.out.println(recentFlight.getToDest());
+                        
+            ArrayList<Flight> goodPath = new ArrayList<Flight>();
+                        
+            for(Flight copyFlight : currentPath) {
+                goodPath.add(copyFlight);
+            }
+                        
+            flightPaths.add(new FlightPath(goodPath));
             
-            for(Flight flightb : allFlights) {
-                
-                if (flighta.getToDest().equals(flightb.getFromDest())) {
-                
-                    ArrayList<Flight> thisPath = new ArrayList<Flight>();
-                    thisPath.add(flighta);thisPath.add(flightb);
-                
-                    FlightPath fp = new FlightPath(thisPath);
-                
-                    if (fp.getFromDest().equals(fromDest) && fp.getToDest().equals(toDest)) {
-                        flightPaths.add(fp);
+            System.out.println(""+flightPaths.size());
+            
+        } else {
+        
+            for(Flight flight : allFlights) {
+            
+                // Is the fromDest of the flight connected to the toDest of the previous flight?
+                if (recentFlight.getToDest().equals(flight.getFromDest())) {
+                    // Is the flight going somewhere we have already been?
+                    if (!visited.contains(flight.getToDest())) {
+                        // Is the flight not too far in the future?
+                        if (flight.getFromDate().getDay() <= (recentFlight.getFromDate().getDay() + 1)) {
+                            // Is the flight not in the past?
+                            if (flight.getFromDate().getDay() >= recentFlight.getFromDate().getDay()) {
+                                
+                                currentPath.add(flight);
+                                visited.add(flight.getToDest());
+                    
+                                nextFlight(currentPath, visited, fromDest, toDest);
+                    
+                                currentPath.remove(currentPath.size() - 1);
+                                visited.remove(visited.size() - 1);
+                                
+                            }
+                        }
                     }
-                }
+                    
                 
+                }
+            
             }
         }
         
-        // NEXT: find best paths from fromDest to toDest
-            // CURRENT: naive permutations on sets of two
+    }
+    
+    public ArrayList<FlightPath> getFlightPaths(String fromDest, String toDest, Date fromDate) {
+        
+        for(Flight flighta : allFlights) {
+            
+            // If flight leaves from the right destination
+            if (flighta.getFromDest().equals(fromDest)) {
+                // If flight leaves on the right day (TODO: add time)
+                System.out.println(flighta.getFromDate().getDate()+" "+fromDate.getDate());
+                if (flighta.getFromDate().getDate() == fromDate.getDate()) {
+                    
+                    ArrayList<Flight> currentPath = new ArrayList<Flight>();
+                    ArrayList<String> visited = new ArrayList<String>();
+                
+                    currentPath.add(flighta);
+                    visited.add(flighta.getFromDest());
+                    visited.add(flighta.getToDest());
+                
+                    nextFlight(currentPath, visited, fromDest, toDest);
+                }
+            }
+        }
         
         return flightPaths;
+    }
+    
+    public ArrayList<String> getFromList() {
+        
+        ArrayList<String> fromList = new ArrayList<String>();
+        
+        for(Flight flight : allFlights) {
+            if(!fromList.contains(flight.getFromDest())) {
+                fromList.add(flight.getFromDest());
+            }
+        }
+        
+        return fromList;
+    }
+    
+    public ArrayList<String> getToList() {
+        
+        ArrayList<String> toList = new ArrayList<String>();
+        
+        for(Flight flight : allFlights) {
+            if(!toList.contains(flight.getToDest())) {
+                toList.add(flight.getToDest());
+            }
+        }
+        
+        return toList;
     }
     
     public FlightDao getFlightDao() {
