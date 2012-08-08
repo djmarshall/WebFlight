@@ -26,19 +26,19 @@ public class MemoryFlightDao implements FlightDao {
         
         try {
             
-            allFlights.add(new Flight("Brisbane","Guangzhou",500.0, dateFormat.parse("2012-08-08")));
-            allFlights.add(new Flight("Guangzhou","Beijing",150.0, dateFormat.parse("2012-08-08")));
-            allFlights.add(new Flight("Brisbane","Shanghai",600.0, dateFormat.parse("2012-08-08")));
-            allFlights.add(new Flight("Shanghai","Beijing",100.0, dateFormat.parse("2012-08-08")));
-            allFlights.add(new Flight("Melbourne", "Guangzhou", 575.0, dateFormat.parse("2012-08-08")));
-            allFlights.add(new Flight("Melbourne", "Brisbane", 100.0, dateFormat.parse("2012-08-08")));
-            allFlights.add(new Flight("Brisbane", "Melbourne", 100.0, dateFormat.parse("2012-08-08")));
-            allFlights.add(new Flight("Brisbane", "Beijing", 1000.0, dateFormat.parse("2012-08-08")));
-            allFlights.add(new Flight("Brisbane", "Melbourne", 120.0, dateFormat.parse("2012-08-08")));
-            allFlights.add(new Flight("Melbourne", "Guangzhou", 275.0, dateFormat.parse("2012-08-09")));
-            allFlights.add(new Flight("Guangzhou","Beijing",150.0, dateFormat.parse("2012-08-09")));
-            allFlights.add(new Flight("Brisbane","Guangzhou",500.0, dateFormat.parse("2012-08-09")));
-            allFlights.add(new Flight("Brisbane", "Melbourne", 50.0, dateFormat.parse("2012-08-09")));
+            allFlights.add(new Flight("Brisbane","Guangzhou",500.00, dateFormat.parse("2012-08-08")));
+            allFlights.add(new Flight("Guangzhou","Beijing",150.00, dateFormat.parse("2012-08-08")));
+            allFlights.add(new Flight("Brisbane","Shanghai",600.00, dateFormat.parse("2012-08-08")));
+            allFlights.add(new Flight("Shanghai","Beijing",100.00, dateFormat.parse("2012-08-08")));
+            allFlights.add(new Flight("Melbourne", "Guangzhou", 575.00, dateFormat.parse("2012-08-08")));
+            allFlights.add(new Flight("Melbourne", "Brisbane", 100.00, dateFormat.parse("2012-08-08")));
+            allFlights.add(new Flight("Brisbane", "Melbourne", 100.00, dateFormat.parse("2012-08-08")));
+            allFlights.add(new Flight("Brisbane", "Beijing", 1000.00, dateFormat.parse("2012-08-08")));
+            allFlights.add(new Flight("Brisbane", "Melbourne", 120.00, dateFormat.parse("2012-08-08")));
+            allFlights.add(new Flight("Melbourne", "Guangzhou", 275.00, dateFormat.parse("2012-08-09")));
+            allFlights.add(new Flight("Guangzhou","Beijing",150.00, dateFormat.parse("2012-08-09")));
+            allFlights.add(new Flight("Brisbane","Guangzhou",500.00, dateFormat.parse("2012-08-09")));
+            allFlights.add(new Flight("Brisbane", "Melbourne", 50.00, dateFormat.parse("2012-08-09")));
         
         } catch (ParseException e) {
             

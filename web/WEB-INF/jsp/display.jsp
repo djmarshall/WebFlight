@@ -12,14 +12,20 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Flights</title>
+       
     </head>
     <body>
         <table width="800" align="center">
-            <tr><td><h3> Flights (<c:out value="${fromDest}" /> to <c:out value="${toDest}" />)</h3></td></tr>
-        
+            <tr><td><h3> Flying from <c:out value="${fromDest}" /> to <c:out value="${toDest}" /> on
+                    <fmt:formatDate type="date" dateStyle="medium" value="${fromDate}" />
+                    (ordered by Price) </h3></td></tr></table>
+        <table width="800" align="center" border="1" cellpadding="0" cellspacing="0">
             <c:forEach items="${flights}" var="flightpath">
             <tr>
-                <td>$${flightpath.getPrice()}</td>
+                
+                <td align="center">
+                    <fmt:formatNumber type="currency" value="${flightpath.getPrice()}" />
+                </td>
                 <c:forEach items="${flightpath.getFlightList()}" var="current">
                 
                 <td>
@@ -27,12 +33,12 @@
                         <c:out value="${current.toDest}" /> </B>
                         <BR>
                         <fmt:formatDate type="date" dateStyle="medium" value="${current.fromDate}" />
-                    
+                        
                 </td>
                 </c:forEach>
             </tr>
             </c:forEach>
-        
+        </table><table width="800" align="center">
             <tr><td><a href="search.htm"> Search Again </a></td></tr>
         </table>
     </body>

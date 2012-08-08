@@ -7,10 +7,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
-
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
-          p:location="/WEB-INF/jdbc.properties" />
+    
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/jdbc.properties</value>
+                <value>/WEB-INF/mongodb.properties</value>
+            </list>
+        </property> 
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
 
 <!-- JDBC DRIVER CONNECTION FOR LOCAL DERBY DB 
     

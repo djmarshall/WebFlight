@@ -1,0 +1,56 @@
+
+TODO for WebFlight v0.2
+
+MAJOR
+
+Add time of day to flights
+    Edit database schemas
+    Add extra flight path logic into flightgraph
+    Look up realistic flight times and rough pricing
+
+Add test cases
+    test flightpaths from searching flightgraph
+        define logic explicitly
+    Mock some objects
+
+Add return flights
+
+Add connecting flight deals
+    special case layer on top of existing flight lists?
+        ties in with return flights
+
+Generate flight data in a fully automated way
+    Script to produce sql, inmemory and mongodb commands
+    Tests to maintain integrity between the three
+
+Add airport ids
+    Sort by id of destination rather than name
+    
+Check and fail gracefully for database errors
+
+MINOR
+
+Choice to sort results by price, number of stops, total flight time
+    Add in each Comparator
+    Add interface element on display screen
+
+Add extra destination info
+    country
+
+Add extra flight info
+    carrier
+
+Add stopover calculation to display
+
+Error message if no flights available
+    JSTL tricks?
+
+remove hard coding of mongodb localhost server
+
+Improve usage of flight selection drop downs
+    Change drop down contents on select of other options
+
+Headings on display form
+
+
+    

@@ -13,9 +13,16 @@ import java.util.Date;
  */
 public class Flight {
     
+    // Origin
     private String fromDest;
+    
+    // Destination
     private String toDest;
+    
+    // Flight price
     private double price;
+    
+    // Date flight leaves (TODO: add time)
     private Date fromDate;
     
     public Flight() {

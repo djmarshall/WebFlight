@@ -3,6 +3,7 @@ package webflight.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+
 import webflight.db.FlightDao;
 
 /**
@@ -16,36 +17,31 @@ public class FlightGraph {
     private ArrayList<FlightPath> flightPaths;
     ArrayList<Flight> allFlights;
     
-    public FlightGraph(FlightDao flightDao) {
-        // store all valid paths
+    public FlightGraph(ArrayList<Flight> allFlights) {
+    
+        // List of valid paths
         flightPaths = new ArrayList<FlightPath>();
         
-        // get flights from the database
-        allFlights = (ArrayList<Flight>) flightDao.getAllFlights();
+        // Set of all flights
+        this.allFlights = allFlights;
         
     }
     
     public void nextFlight(ArrayList<Flight> currentPath, ArrayList<String> visited, String fromDest, String toDest) {
         
-        System.out.println("nextflight! " + visited.toString());
-        
         Flight recentFlight = currentPath.get(currentPath.size() - 1);
         
         // Are we at our destination?
-        
         if (recentFlight.getToDest().equals(toDest)) {
+
+            // This is a valid flight path
             
-            System.out.println(recentFlight.getToDest());
-                        
+            // Make a copy of the path and add it to the list of valid paths
             ArrayList<Flight> goodPath = new ArrayList<Flight>();
-                        
             for(Flight copyFlight : currentPath) {
                 goodPath.add(copyFlight);
             }
-                        
             flightPaths.add(new FlightPath(goodPath));
-            
-            System.out.println(""+flightPaths.size());
             
         } else {
         
@@ -53,13 +49,19 @@ public class FlightGraph {
             
                 // Is the fromDest of the flight connected to the toDest of the previous flight?
                 if (recentFlight.getToDest().equals(flight.getFromDest())) {
-                    // Is the flight going somewhere we have already been?
+                    
+                    // Is the flight not going somewhere we have already been?
                     if (!visited.contains(flight.getToDest())) {
-                        // Is the flight not too far in the future?
+                        
+                        // Is the flight not too long after the previous flight
                         if (flight.getFromDate().getDay() <= (recentFlight.getFromDate().getDay() + 1)) {
-                            // Is the flight not in the past?
+                            
+                            // Is the flight not before the previous flight
                             if (flight.getFromDate().getDay() >= recentFlight.getFromDate().getDay()) {
                                 
+                                // This is a valid partial path
+                                
+                                // Recurse to continue building the path
                                 currentPath.add(flight);
                                 visited.add(flight.getToDest());
                     
@@ -72,7 +74,6 @@ public class FlightGraph {
                         }
                     }
                     
-                
                 }
             
             }
@@ -82,61 +83,34 @@ public class FlightGraph {
     
     public ArrayList<FlightPath> getFlightPaths(String fromDest, String toDest, Date fromDate) {
         
-        for(Flight flighta : allFlights) {
+        // Look for valid starting points to constructing flight paths
+        for(Flight firstFlight : allFlights) {
             
-            // If flight leaves from the right destination
-            if (flighta.getFromDest().equals(fromDest)) {
-                // If flight leaves on the right day (TODO: add time)
-                System.out.println(flighta.getFromDate().getDate()+" "+fromDate.getDate());
-                if (flighta.getFromDate().getDate() == fromDate.getDate()) {
+            // Is the flight leaving from the right destination?
+            if (firstFlight.getFromDest().equals(fromDest)) {
+                
+                // Is the flight leaving on the right day? (TODO: add time)
+                if (firstFlight.getFromDate().getDate() == fromDate.getDate()) {
                     
+                    // This flight is a valid starting point
+                    
+                    // To store the current path under consideration
                     ArrayList<Flight> currentPath = new ArrayList<Flight>();
+                    
+                    // To keep track of places already visited (avoid loops)
                     ArrayList<String> visited = new ArrayList<String>();
                 
-                    currentPath.add(flighta);
-                    visited.add(flighta.getFromDest());
-                    visited.add(flighta.getToDest());
+                    currentPath.add(firstFlight);
+                    visited.add(firstFlight.getFromDest());
+                    visited.add(firstFlight.getToDest());
                 
+                    // Begin the recursion
                     nextFlight(currentPath, visited, fromDest, toDest);
                 }
             }
         }
         
         return flightPaths;
-    }
-    
-    public ArrayList<String> getFromList() {
-        
-        ArrayList<String> fromList = new ArrayList<String>();
-        
-        for(Flight flight : allFlights) {
-            if(!fromList.contains(flight.getFromDest())) {
-                fromList.add(flight.getFromDest());
-            }
-        }
-        
-        return fromList;
-    }
-    
-    public ArrayList<String> getToList() {
-        
-        ArrayList<String> toList = new ArrayList<String>();
-        
-        for(Flight flight : allFlights) {
-            if(!toList.contains(flight.getToDest())) {
-                toList.add(flight.getToDest());
-            }
-        }
-        
-        return toList;
-    }
-    
-    public FlightDao getFlightDao() {
-        return flightDao;
-    }
-    
-    public void setFlightDao(FlightDao flightDao) {
-        this.flightDao = flightDao;
     }
     
 }
